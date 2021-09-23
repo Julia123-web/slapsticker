@@ -21,13 +21,13 @@ However, we would like for you to show off your strengths as a developer by impr
 
 ### Some ideas (no need to do all):
 
-- Make it look really nice OK
-- Let users pick from multiple (custom) stickers OK
-- Improve the workflow and ux OK
+- Make it look really nice
+- Let users pick from multiple (custom) stickers
+- Improve the workflow and ux
 - Show multiple captured images in a gallery
-- Let users download or share the captured pics OK
+- Let users download or share the captured pics
 - Add super cool effects to webcam feed
-- Organize, document and test the code PUT SOME COMMENTS
+- Organize, document and test the code
 - Integrate with zoom, teams, meet...
 
 ### quickstart
