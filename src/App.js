@@ -125,8 +125,13 @@ const useStyles = createUseStyles((theme) => ({
       marginLeft: "5px",
     },
 
-    "& li": {
+    "& ul": {
       display: "flex",
+      justifyContent: "center"
+    },
+
+    "& li": {
+      display: "inline-block",
       marginRight: "22px",
       justifyContent: "center"
     },
@@ -162,6 +167,7 @@ const useStyles = createUseStyles((theme) => ({
   },
 
   SavedGallery: {
+    textAlign:"center",
     "& img": {
       height: "auto",
       borderRadius: "20px",
@@ -252,8 +258,6 @@ function App(props) {
   const [sticker, setSticker] = useState();
   // title for the picture that will be captured
   const [title, setTitle] = useState("SLAPPE!");
-  // enable or disable save photo button to avoid that the same photo is saved multiple times
-  const [enableSavePhoto, setEnableSavePhoto] = useState(true);
   // photo gallery saved by the user
   const [photoGallery, setPhotoGallery] = useState([]);
 
@@ -277,22 +281,20 @@ function App(props) {
 
   function persistPhotoGalery(photoGalleryTemp) {
     try {
-      console.log(photoGalleryTemp);
       sessionStorage.setItem('slap-sticker-gallery', JSON.stringify(photoGalleryTemp));
       setPhotoGallery(photoGalleryTemp);
     } catch (error) {
       alert("There are too many pictures in your gallery. Delete some to continue");
-      setEnableSavePhoto(true);
     }
   }
 
   function savePhotoToGallery(e) {
     e.preventDefault();
-    setEnableSavePhoto(false);
     let photoGalleryTemp = getPhotoGalleryFromStorage();
 
     picture.id = uuidv1();
     photoGalleryTemp.push(picture);
+    // TODO: it would be better if we disabled the button to save a photo that is already saved
 
     persistPhotoGalery(photoGalleryTemp);
   }
@@ -411,9 +413,13 @@ function App(props) {
                   <img src={picture.dataUri} alt="" />
                   <h3>{picture.title}</h3>
                   <ul>
-                    <li>
-                      <a href="#" title="Save photo to gallery" onClick={savePhotoToGallery} enabled={enableSavePhoto}><svg id="Capa_1" enableBackground="new 0 0 512.007 512.007" height="20" viewBox="0 0 512.007 512.007" width="20" xmlns="http://www.w3.org/2000/svg"><g><path d="m511.927 126.537c-.279-2.828-1.38-5.666-3.315-8.027-.747-.913 6.893 6.786-114.006-114.113-2.882-2.882-6.794-4.395-10.612-4.394-9.096 0-329.933 0-338.995 0-24.813 0-45 20.187-45 45v422c0 24.813 20.187 45 45 45h422c24.813 0 45-20.187 45-45 .001-364.186.041-339.316-.072-340.466zm-166.927-96.534v98c0 8.271-6.729 15-15 15h-19v-113zm-64 0v113h-139c-8.271 0-15-6.729-15-15v-98zm64 291h-218v-19c0-8.271 6.729-15 15-15h188c8.271 0 15 6.729 15 15zm-218 161v-131h218v131zm355-15c0 8.271-6.729 15-15 15h-92c0-19.555 0-157.708 0-180 0-24.813-20.187-45-45-45h-188c-24.813 0-45 20.187-45 45v180h-52c-8.271 0-15-6.729-15-15v-422c0-8.271 6.729-15 15-15h52v98c0 24.813 20.187 45 45 45h188c24.813 0 45-20.187 45-45v-98h2.787l104.213 104.214z" fill="#fff" /></g></svg></a>
+                    <li key="save">
+                        <a href="#" title="Save photo to gallery" onClick={savePhotoToGallery}><svg id="Capa_1" enableBackground="new 0 0 512.007 512.007" height="20" viewBox="0 0 512.007 512.007" width="20" xmlns="http://www.w3.org/2000/svg"><g><path d="m511.927 126.537c-.279-2.828-1.38-5.666-3.315-8.027-.747-.913 6.893 6.786-114.006-114.113-2.882-2.882-6.794-4.395-10.612-4.394-9.096 0-329.933 0-338.995 0-24.813 0-45 20.187-45 45v422c0 24.813 20.187 45 45 45h422c24.813 0 45-20.187 45-45 .001-364.186.041-339.316-.072-340.466zm-166.927-96.534v98c0 8.271-6.729 15-15 15h-19v-113zm-64 0v113h-139c-8.271 0-15-6.729-15-15v-98zm64 291h-218v-19c0-8.271 6.729-15 15-15h188c8.271 0 15 6.729 15 15zm-218 161v-131h218v131zm355-15c0 8.271-6.729 15-15 15h-92c0-19.555 0-157.708 0-180 0-24.813-20.187-45-45-45h-188c-24.813 0-45 20.187-45 45v180h-52c-8.271 0-15-6.729-15-15v-422c0-8.271 6.729-15 15-15h52v98c0 24.813 20.187 45 45 45h188c24.813 0 45-20.187 45-45v-98h2.787l104.213 104.214z" fill="#fff" /></g></svg></a>
+                      </li>
+                    <li key="share">
                       <a href="#" title="Share photo url" onClick={sharePhoto}><svg height="20" viewBox="0 0 512 512.00004" width="20" xmlns="http://www.w3.org/2000/svg"><path d="m511.824219 255.863281-233.335938-255.863281v153.265625h-27.105469c-67.144531 0-130.273437 26.148437-177.753906 73.628906-47.480468 47.480469-73.628906 110.609375-73.628906 177.757813v107.347656l44.78125-49.066406c59.902344-65.628906 144.933594-103.59375 233.707031-104.457032v153.253907zm-481.820313 179.003907v-30.214844c0-59.132813 23.027344-114.730469 64.839844-156.542969s97.40625-64.839844 156.539062-64.839844h57.105469v-105.84375l162.734375 178.4375-162.734375 178.441407v-105.84375h-26.917969c-94.703124 0-185.773437 38.652343-251.566406 106.40625zm0 0" fill="#fff" /></svg></a>
+                    </li>
+                    <li key="download">
                       <a href={picture.dataUri} download={picture.title} title="Download photo"><svg height="20" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><g id="Solid" fill="#fff"><path d="m239.029 384.97a24 24 0 0 0 33.942 0l90.509-90.509a24 24 0 0 0 0-33.941 24 24 0 0 0 -33.941 0l-49.539 49.539v-262.059a24 24 0 0 0 -48 0v262.059l-49.539-49.539a24 24 0 0 0 -33.941 0 24 24 0 0 0 0 33.941z" /><path d="m464 232a24 24 0 0 0 -24 24v184h-368v-184a24 24 0 0 0 -48 0v192a40 40 0 0 0 40 40h384a40 40 0 0 0 40-40v-192a24 24 0 0 0 -24-24z" fill="#fff" /></g></svg></a>
                     </li>
                   </ul>
@@ -431,7 +437,7 @@ function App(props) {
                 ? (<ul>
                   {
                     photoGallery?.map((item) =>
-                      <li>
+                      <li key={item.id}>
                         <img src={item.dataUri} alt="" />
                         <a href="#" title="Delet Photo" onClick={(e) => deletePhotoFromGallery(e, item.id)}><svg height="20" viewBox="-57 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><path d="m156.371094 30.90625h85.570312v14.398438h30.902344v-16.414063c.003906-15.929687-12.949219-28.890625-28.871094-28.890625h-89.632812c-15.921875 0-28.875 12.960938-28.875 28.890625v16.414063h30.90625zm0 0" fill="#fff" /><path d="m344.210938 167.75h-290.109376c-7.949218 0-14.207031 6.78125-13.566406 14.707031l24.253906 299.90625c1.351563 16.742188 15.316407 29.636719 32.09375 29.636719h204.542969c16.777344 0 30.742188-12.894531 32.09375-29.640625l24.253907-299.902344c.644531-7.925781-5.613282-14.707031-13.5625-14.707031zm-219.863282 312.261719c-.324218.019531-.648437.03125-.96875.03125-8.101562 0-14.902344-6.308594-15.40625-14.503907l-15.199218-246.207031c-.523438-8.519531 5.957031-15.851562 14.472656-16.375 8.488281-.515625 15.851562 5.949219 16.375 14.472657l15.195312 246.207031c.527344 8.519531-5.953125 15.847656-14.46875 16.375zm90.433594-15.421875c0 8.53125-6.917969 15.449218-15.453125 15.449218s-15.453125-6.917968-15.453125-15.449218v-246.210938c0-8.535156 6.917969-15.453125 15.453125-15.453125 8.53125 0 15.453125 6.917969 15.453125 15.453125zm90.757812-245.300782-14.511718 246.207032c-.480469 8.210937-7.292969 14.542968-15.410156 14.542968-.304688 0-.613282-.007812-.921876-.023437-8.519531-.503906-15.019531-7.816406-14.515624-16.335937l14.507812-246.210938c.5-8.519531 7.789062-15.019531 16.332031-14.515625 8.519531.5 15.019531 7.816406 14.519531 16.335937zm0 0" fill="#fff" /><path d="m397.648438 120.0625-10.148438-30.421875c-2.675781-8.019531-10.183594-13.429687-18.640625-13.429687h-339.410156c-8.453125 0-15.964844 5.410156-18.636719 13.429687l-10.148438 30.421875c-1.957031 5.867188.589844 11.851562 5.34375 14.835938 1.9375 1.214843 4.230469 1.945312 6.75 1.945312h372.796876c2.519531 0 4.816406-.730469 6.75-1.949219 4.753906-2.984375 7.300781-8.96875 5.34375-14.832031zm0 0" fill="#fff" /></svg></a>
                       </li>
