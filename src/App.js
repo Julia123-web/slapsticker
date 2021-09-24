@@ -316,7 +316,7 @@ function App(props) {
 
   function deletePhotoFromGallery(e, photoId) {
     e.preventDefault();
-
+    //Implemented delete images from callery
     let photoGalleryTemp = getPhotoGalleryFromStorage();
     for (var i = 0; i < photoGalleryTemp.length; i++) {
       if (photoGalleryTemp[i].id === photoId) {
@@ -336,7 +336,9 @@ function App(props) {
     <div className={classes.App}>
       <header className={classes.Header}>
 
-        <h1>SlapSticker</h1>
+      <Link to="/">
+       <h1>SlapSticker</h1>
+       </Link>
         <nav>
           <ul>
             <li>

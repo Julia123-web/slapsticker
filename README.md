@@ -12,6 +12,7 @@ SlapSticker is an app that lets users to slap stickers on their face, using thei
 - User can give the captured image a title
 - User can place the sticker over the webcam image
 - User can capture the webcam image with sticker
+- User can delete the images from the gallery (Implemented)
 
 ##What we want you to do
 
